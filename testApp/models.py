@@ -27,12 +27,13 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-
-
 class Category(MP_Node):
     name = models.CharField(max_length=30)
 
     node_order_by = ['name']
+
+    def to_json(self):
+        return {'name': self.name}
 
     def __unicode__(self):
         return 'Category: %s' % self.name
