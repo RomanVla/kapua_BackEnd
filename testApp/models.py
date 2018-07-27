@@ -1,15 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
-class Employees(models.Model):
-	emp_id = models.IntegerField()
-	firstname = models.CharField(max_length=20)
-	lastname = models.CharField(max_length=20)
-	created_date = models.DateTimeField(
-            default=timezone.now)
-
-	def __str__(self):
-		return self.firstname +' '+ self.lastname
+from treebeard.mp_tree import MP_Node
 
 class Task(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
@@ -29,9 +20,19 @@ class Task(models.Model):
 
 class Product(models.Model):
     owner = models.ForeignKey('testApp.Product', on_delete=models.CASCADE, blank = True, null=True)
-    name = models.CharField(max_length=100) 
+    name = models.CharField(max_length=100)
     created_date = models.DateTimeField(
             default=timezone.now)
 
     def __str__(self):
         return self.name
+
+
+
+class Category(MP_Node):
+    name = models.CharField(max_length=30)
+
+    node_order_by = ['name']
+
+    def __unicode__(self):
+        return 'Category: %s' % self.name
