@@ -18,14 +18,16 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
-class Product(models.Model):
-    owner = models.ForeignKey('testApp.Product', on_delete=models.CASCADE, blank = True, null=True)
-    name = models.CharField(max_length=100)
-    created_date = models.DateTimeField(
-            default=timezone.now)
+class Api(models.Model):
+    httpType = models.CharField(max_length=10)
+    url = models.CharField(max_length=200)
+    params = models.TextField(blank=True, null=True)
+
+    requestExample = models.TextField(blank=True, null=True)
+    responseExample = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.httpType +' '+ self.url
 
 class Category(MP_Node):
     name = models.CharField(max_length=30)
@@ -34,6 +36,9 @@ class Category(MP_Node):
 
     def to_json(self):
         return {'name': self.name}
+
+    def __str__(self):
+        return self.name
 
     def __unicode__(self):
         return 'Category: %s' % self.name

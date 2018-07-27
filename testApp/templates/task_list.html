@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	{% for task in tasks %}
+	{% for entity in entities %}
 		<div>
-			<p>published: {{ task.published_date }}</p>
-			<h1><a href="">{{ task.title }}</a></h1>
-			<p>{{ task.text|linebreaksbr }}</p>
+			<p>published: {{ entity.published_date }}</p>
+			<h1><a href="">{{ entity.title }}</a></h1>
+			<p>{{ entity.text|linebreaksbr }}</p>
 		</div>	    		
 	{% endfor %}
 {% endblock %}

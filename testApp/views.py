@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
-from .models import Task, Category
+from .models import Task, Api, Category
 from .serializers import TaskSerializer
 
 class HomePageView(TemplateView):	
@@ -18,8 +18,13 @@ class AboutPageView(TemplateView):
 
 class TaskListView(TemplateView):
     def get(self, request, **kwargs):
-        tasks = Task.objects.all()
-        return render(request, 'task_list.html', {'tasks': tasks})
+        entities = Task.objects.all()
+        return render(request, 'task_list.html', {'entities': entities})
+
+class ApiListView(TemplateView):
+    def get(self, request, **kwargs):
+        entities = Api.objects.all()
+        return render(request, 'api_list.html', {'entities': entities})
 
 def category_list(request):
     data = Category.dump_bulk()
@@ -56,6 +61,17 @@ def category_moveEntity(request):
     node = get(id)
 
     node.move(parentId, 'sorted-child')
+
+    return JsonResponse('ok', safe=False)
+
+def category_deleteEntity(request):
+    id = request.GET.get('id', '')
+
+    get = lambda node_id: Category.objects.get(pk=node_id)
+
+    node = get(id)
+
+    node.delete()
 
     return JsonResponse('ok', safe=False)
 
