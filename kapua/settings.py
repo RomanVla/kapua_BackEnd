@@ -39,21 +39,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'treebeard',
+    'django_tenants',
     'testApp'
 ]
 
 MIDDLEWARE = [
+    'django_tenants.middleware.main.TenantMainMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
- #    'django_tenants.middleware.main.TenantMainMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',    
 ]
 
-ROOT_URLCONF = 'kapua.urls'
+ROOT_URLCONF = 'kapua.urls_tenant'
 
 TEMPLATES = [
     {
@@ -78,8 +79,8 @@ WSGI_APPLICATION = 'kapua.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-     'default': {
-    'ENGINE': 'django.db.backends.postgresql',
+    'default': {
+    'ENGINE': 'django_tenants.postgresql_backend',
             'NAME': 'kapua',
             'USER': 'postgres',
             'PASSWORD': '1254',
@@ -131,16 +132,30 @@ USE_TZ = True
 # Example: "http://example.com/static/", "http://static.example.com/
 STATIC_URL = '/static/'
 
+DATABASE_ROUTERS = [
+    'django_tenants.routers.TenantSyncRouter',
+]
 
+SHARED_APPS = (
+    'django_tenants',  # mandatory
+    'testApp', # you must list the app where your tenant model resides in
 
-# django-tenants
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django_tenants.postgresql_backend',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+    'django.contrib.contenttypes',
 
-# DATABASE_ROUTERS = [
-#     'django_tenants.routers.TenantSyncRouter',
-# ]
+    # everything below here is optional
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.admin',    
+)
+
+TENANT_APPS = (
+    # The following Django contrib apps must be in TENANT_APPS
+    'django.contrib.contenttypes',
+    'django.contrib.auth',
+)
+
+INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
+TENANT_MODEL = "testApp.Client" # app.Model
+TENANT_DOMAIN_MODEL = "testApp.Domain"  # app.Model

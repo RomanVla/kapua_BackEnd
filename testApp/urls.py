@@ -1,12 +1,9 @@
 # howdy/urls.py
 from django.conf.urls import url
-from testApp import views
+from kapua.views import HomeView
 
 urlpatterns = [
-    url(r'^$', views.HomePageView.as_view()),
-    url(r'^about/$', views.AboutPageView.as_view()),
-    url(r'^tasksList/$', views.TaskListView.as_view()),
-    url(r'^apiList/$', views.ApiListView.as_view()),
+    url(r'^$', HomeView.as_view()),
 
     url(r'^category/list/$', views.category_list),
     url(r'^category/entity/$', views.category_entity),
