@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'kapua.wsgi.application'
 DATABASES = {
     'default': {
     'ENGINE': 'django_tenants.postgresql_backend',
-            'NAME': 'kapua',
-            'USER': 'postgres',
-            'PASSWORD': '1254',
-            'HOST': 'localhost',
+            'NAME': 'uwassess11',
+            'USER': 'uwassess_admin',
+            'PASSWORD': 'Pgc5Ek9z',
+            'HOST': '18.211.109.203',
             'PORT': '',
          }
 }
