@@ -147,7 +147,9 @@ SHARED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'django.contrib.admin',    
+    'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'treebeard',
 )
 
 TENANT_APPS = (

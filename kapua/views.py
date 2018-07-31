@@ -28,12 +28,12 @@ def category_addEntity(request):
     print name
 
     new_node = Category(name = name)
-    try:
+    # try:
         get = lambda node_id: Category.objects.get(pk=node_id)   
         node = get(parentId)
         node.add_child(instance=new_node)
-    except DoesNotExist as e:        
-        new_node = Category.add_root(instance=new_node)
+    # except DoesNotExist as e:        
+    #     new_node = Category.add_root(instance=new_node)
 
     return JsonResponse(new_node.to_json(), safe=False)
 
