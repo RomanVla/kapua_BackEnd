@@ -1,33 +1,59 @@
 from django.conf import settings
 from django.db import utils
 from django.views.generic import TemplateView
+from django.http import HttpResponse, JsonResponse
 
 from tenant_schemas.utils import remove_www
 
-from testApp.models import Client
+from testApp.models import Client, Category
 
-class HomeView(TemplateView):
-    template_name = "index_public.html"
+def category_list(request):
+    data = Category.dump_bulk()
+    
+    # json.dumps(data)
+    return JsonResponse(data, safe=False)
 
-    def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
+def category_entity(request):
+    id = request.GET.get('id', '')
 
-        hostname_without_port = remove_www(self.request.get_host().split(':')[0])
+    get = lambda node_id: Category.objects.get(pk=node_id)    
+    node = get(id)
 
-        try:
-            Client.objects.get(schema_name='public')
-        except utils.DatabaseError:
-            context['need_sync'] = True
-            context['shared_apps'] = settings.SHARED_APPS
-            context['tenants_list'] = []
-            return context
-        except Client.DoesNotExist:
-            context['no_public_tenant'] = True
-            context['hostname'] = hostname_without_port
+    return JsonResponse(node.to_json(), safe=False)
 
-        if Client.objects.count() == 1:
-            context['only_public_tenant'] = True
+def category_addEntity(request):
+    parentId = request.GET.get('parentId', '')
+    name = request.GET.get('name', '')
 
-        context['tenants_list'] = Client.objects.all()
-        return context
+    new_node = Category(name = name)
+    get = lambda node_id: Category.objects.get(pk=node_id)
+    node = get(parentId)
+    node.add_child(instance=new_node)
+
+    return JsonResponse(new_node.to_json(), safe=False)
+
+def category_moveEntity(request):
+    parentId = request.GET.get('parentId', '')
+    id = request.GET.get('id', '')
+
+    get = lambda node_id: Category.objects.get(pk=node_id)
+
+    parentId = get(parentId)
+    node = get(id)
+
+    node.move(parentId, 'sorted-child')
+
+    return JsonResponse('ok', safe=False)
+
+def category_deleteEntity(request):
+    id = request.GET.get('id', '')
+
+    get = lambda node_id: Category.objects.get(pk=node_id)
+
+    node = get(id)
+
+    node.delete()
+
+    return JsonResponse('ok', safe=False)
+
 
