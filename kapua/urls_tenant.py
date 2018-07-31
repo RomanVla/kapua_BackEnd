@@ -5,9 +5,9 @@ from testApp.views import category_list, category_entity, category_add, category
 
 urlpatterns = [
 	url(r'admin/', admin.site.urls),
-    url(r'^category/list/$', category_list),
-    url(r'^category/entity/$', category_entity),
-    url(r'^category/add/$', category_add),
-    url(r'^category/move/$', category_move),
-    url(r'^category/delete/$', category_delete),    
+    url(r'^api/category/list/$', category_list),
+    url(r'^api/category/entity/$', category_entity),
+    url(r'^api/category/add/$', category_add),
+    url(r'^api/category/move/$', category_move),
+    url(r'^api/category/delete/$', category_delete),    
 ]
