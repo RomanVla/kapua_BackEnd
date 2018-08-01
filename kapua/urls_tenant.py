@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 from django.conf.urls import url
-# from testApp.views import category_list, category_entity, category_add, category_move, category_delete
 from testApp.views import category_controller
 
 urlpatterns = [
@@ -12,5 +11,5 @@ urlpatterns = [
     url(r'^api/delete/$', category_controller),    
     # url(r'^api/entity/$', category_entity),
     # url(r'^api/add/$', category_add),
-    
+
 ]

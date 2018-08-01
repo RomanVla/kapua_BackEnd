@@ -12,10 +12,6 @@ from tenant_schemas.utils import remove_www
 
 from testApp.models import Category
 
-# def category_list(request):
-#     data = Category.dump_bulk()
-#     return JsonResponse(data, safe=False)
-
 # def category_entity(request):
 #     id = request.GET.get('id', 0)
 
@@ -37,35 +33,6 @@ from testApp.models import Category
 #         new_node = Category.add_root(instance=new_node)
 
 #     return JsonResponse(new_node.to_json(), safe=False)
-
-# def category_move(request):
-#     response = Response()
-
-#     if (request.method != 'PATCH'):
-#         return
-
-#     parentId = request.GET.get('parentId', 0)
-#     id = request.GET.get('id', '')
-
-#     get = lambda node_id: Category.objects.get(pk=node_id)
-
-#     parentId = get(parentId)
-#     node = get(id)
-
-#     node.move(parentId, 'sorted-child')
-
-#     return JsonResponse('ok', safe=False)
-
-# def category_delete(request):
-
-#     print(request.method)
-#     if (request.method == 'DELETE'):
-#         id = request.GET.get('id', 0)
-#         get = lambda node_id: Category.objects.get(pk=node_id)
-#         node = get(id)
-#         node.delete()
-#     else:
-#         return JsonResponse(status.HTTP_400_BAD_REQUEST, safe=False)
     
 
 
