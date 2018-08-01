@@ -1,13 +1,41 @@
 from django.db import models
-from django.utils import timezone
-from treebeard.mp_tree import MP_Node
+from django.core.exceptions import ObjectDoesNotExist
 
+from treebeard.mp_tree import MP_Node
 from django_tenants.models import TenantMixin, DomainMixin
 
 class Category(MP_Node):
     name = models.CharField(max_length=30)
 
     node_order_by = ['name']
+
+    def getCategoryList():
+        data = Category.dump_bulk()
+        return data
+
+    def getCategory(id):
+        get = lambda node_id: Category.objects.get(pk=node_id)
+        return get(id)
+
+    def deleteCategory(id):
+        try:
+            node = Category.getCategory(id)
+            node.delete()
+            return True
+        except:
+            return False
+
+    def moveCategory(id, parentId):
+        try:
+            node = Category.getCategory(id)
+            try:
+                parentId = Category.getCategory(parentId)
+                node.move(parentId, 'sorted-child')
+            except ObjectDoesNotExist as e: 
+                root_node = Category.get_last_root_node()
+                node.move(root_node, 'sorted-sibling')
+        except:
+            return False
 
     def to_json(self):
         return {'name': self.name}

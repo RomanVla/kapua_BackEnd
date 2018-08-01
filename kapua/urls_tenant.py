@@ -8,8 +8,5 @@ urlpatterns = [
 
     url(r'^api/list/$', category_controller),
     url(r'^api/move/$', category_controller),
-    url(r'^api/delete/$', category_controller),    
-    # url(r'^api/entity/$', category_entity),
-    # url(r'^api/add/$', category_add),
-
+    url(r'^api/delete/$', category_controller),
 ]
