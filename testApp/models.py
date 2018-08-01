@@ -18,6 +18,7 @@ class Category(MP_Node):
     def __unicode__(self):
         return 'Category: %s' % self.name
 
+
 class Client(TenantMixin):
     name = models.CharField(max_length=100)
     paid_until =  models.DateField()

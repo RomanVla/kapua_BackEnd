@@ -26,7 +26,7 @@ SECRET_KEY = ')^*5m9ksa!g$mpt=!tq+ruokb+o-93zlr@c6^^^bwx(snu3hwb'
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'my-domain.com', 'tenant.my-domain.com', 'tenant2.my-domain.com']
-
+CSRF_COOKIE_SECURE = False
 
 # Application definition
 
@@ -48,7 +48,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',    

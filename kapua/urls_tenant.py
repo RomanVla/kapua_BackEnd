@@ -1,13 +1,16 @@
 from django.contrib import admin
 
 from django.conf.urls import url
-from testApp.views import category_list, category_entity, category_add, category_move, category_delete
+# from testApp.views import category_list, category_entity, category_add, category_move, category_delete
+from testApp.views import category_controller
 
 urlpatterns = [
 	url(r'admin/', admin.site.urls),
-    url(r'^api/category/list/$', category_list),
-    url(r'^api/category/entity/$', category_entity),
-    url(r'^api/category/add/$', category_add),
-    url(r'^api/category/move/$', category_move),
-    url(r'^api/category/delete/$', category_delete),    
+
+    url(r'^api/list/$', category_controller),
+    url(r'^api/move/$', category_controller),
+    url(r'^api/delete/$', category_controller),    
+    # url(r'^api/entity/$', category_entity),
+    # url(r'^api/add/$', category_add),
+    
 ]
