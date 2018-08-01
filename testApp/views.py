@@ -87,12 +87,10 @@ def category_controller(request):
             parentId = get(parentId)
             node.move(parentId, 'sorted-child')
         except ObjectDoesNotExist as e: 
-            new_node = copy.copy(node)
-            print(new_node)
-            print(node)
+
             root_node = Category.get_last_root_node()            
-            root_node.add_sibling('sorted-sibling', instance=new_node)
-            node.delete()
+            node.move(root_node, 'sorted-sibling')
+
 
         return JsonResponse(status.HTTP_201_CREATED, safe=False)
     elif (request.method == 'DELETE'):
